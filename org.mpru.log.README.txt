@@ -1,0 +1,2 @@
+org.mpru.log java package (logging library). Copyright 2016 Maxim Petrov
+The library distributed under LGPL. See the full text in COPYING.LESSER file
