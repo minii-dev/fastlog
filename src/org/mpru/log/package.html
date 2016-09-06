@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Logging for Applications</title>
+</head>
+<body>
+Use cases:
+<ol>
+<li>single application. Should use one ILog object for logging
+<pre><code>ILog log=Logger.getDefault().newLog();
+if(log.isDebug()) log.debug("debug message");
+</code></pre>
+<li>several modules using the same logging with independent log levels. Should use one ILogger and several ILog objects (one for each module, using ILog prefix to identify the module in the log) <pre><code>ILogger loger;
+...
+ILog log1=logger.newLog();
+ILog log2=logger.newLog();
+log2.setPrefix("*2");
+if(log1.isDebug()) log1.debug("debug message");
+log2.info("information message"); // "*2" prefix will be added to the message
+</code></pre>
+<li>parent and child module(s)  (logging level can be different in parent and children). Child uses parent level if the latter is more verbose. It uses own level otherwise.
+Also several ILog objects can be used to distinguish different threads (assigning them different prefixes)<pre><code>ILogger loger;
+...
+ILog log=logger.newLog();
+ILog child=log.newLog(true);
+child.setPrefix("*child*");
+ 
+log.setLevel(ILog.DEBUG); // enables debug in both log and child
+if(log.isDebug()) log.debug("debug message");
+if(child.isDebug()) child.debug("debug message");
+ 
+child.setLevel(ILog.TRACE); // enables trace in child only
+</code></pre>
+<li>parent and child module(s) where logging level is set in parent only (child inherits). Really the same as #3
+<li>multiple threads with different log prefixes. The same as #3</ol>
+</body>
+</html>
