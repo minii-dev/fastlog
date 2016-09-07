@@ -8,14 +8,24 @@
 Use cases:
 <ol>
 <li>single application. Should use one ILog object for logging
-<pre><code>ILog log=Log.createInitial();<br>if(log.isDebug()) log.debug("debug message");
+<pre><code>ILog log=Log.createInitial();
+if(log.isDebug()) log.debug("debug message");
 </code></pre>
-<li>several modules using the same log output (log file) with independent log levels. Should use one several ILog objects (one for each module, using ILog prefix to identify the module in the log) <pre><code>ILog log1=Log.createInitial(); // creates new independent log<br>log1.setProperty(ILog.LOG_PATH, "d:\\test_$(filedate).log");<br><br>ILog log2=log1.newLog(false); /* creates peer log, not child, having independent log level,<br>  but sharing logging properties, such as log file */<br>log2.setPrefix("*2");
+<li>several modules using the same log output (log file) with independent log levels. Should use one several ILog objects (one for each module, using ILog prefix to identify the module in the log)
+<pre><code>ILog log1=Log.createInitial(); // creates new independent log
+log1.setProperty(ILog.LOG_PATH, "d:\\test_$(filedate).log");
+
+/* creates peer log, not child, having independent log level,
+   but sharing logging properties, such as log file */
+ILog log2=log1.newLog(false);
+log2.setPrefix("*2");
 if(log1.isDebug()) log1.debug("debug message");
 log2.info("information message"); // "*2" prefix will be added to the message
 </code></pre>
 <li>parent and child module(s)  (logging level can be different in parent and children). Child uses parent level if the latter is more verbose. It uses own level otherwise.
-Also several ILog objects can be used to distinguish different threads (assigning them different prefixes)<pre><code>ILog log=Log.createInitial();<br>ILog child=log.newLog(true);
+Also several ILog objects can be used to distinguish different threads (assigning them different prefixes)
+<pre><code>ILog log=Log.createInitial();
+ILog child=log.newLog(true);
 child.setPrefix("*child");
  
 log.setLevel(ILog.DEBUG); // enables debug in both log and child
