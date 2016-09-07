@@ -17,3 +17,6 @@ It is very easy to assign a prefix, which is added to each log line, to a proces
 1. A message text having the parameter placeholders can be distinguished from parameter values - as you wish.
 2. Logging has differed output ability which can be used to log fast or slow run differently. Imagine, you want the line "My process finished quickly and successfully" for fast run or "My process started... Please wait" ... "My process finished, elapsed 1 hour" for slow. It is possible by logging "My process started... Please wait" message, specifying, say, 5 seconds delay, and after the process finish, try to cancel the message and log "My process finished quickly and successfully" on cancel success or "My process finished, elapsed ..." otherwise.
 3. When message text parameters passed, they are automatically converted to strings, including objects INSIDE Maps, Arrays, Iterables, limiting the total message length and possible self-references.
+
+# Usage
+See [package.html](https://rawgit.com/minii-dev/fastlog/master/src/org/mpru/log/package.html) for usage description and examples.
