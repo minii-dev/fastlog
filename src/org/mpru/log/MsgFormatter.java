@@ -222,7 +222,7 @@ public class MsgFormatter {
 			sb.append('[');
 			int sz=Array.getLength(value);
 			if(sz>MAX_PARAMETER_ELEMENT_COUNT) {
-				sb.append("SIZE:").append(sz);
+				sb.append("SIZE:").append(sz).append(' ');
 				sz=MAX_PARAMETER_ELEMENT_COUNT;
 			}
 			for(int i=0;i<sz;i++) {
