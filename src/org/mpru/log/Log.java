@@ -197,7 +197,7 @@ public class Log implements ILog {
 	}
 
 	public static String getExceptionText(String message, Throwable throwable, boolean isPrintStackTrace) {
-		String eText=getExceptionText(throwable, true);
+		String eText=getExceptionText(throwable, isPrintStackTrace);
 		if(message!=null && message.length()>0) {
 			if(message.charAt(message.length()-1)>' ')eText=message+' '+eText;
 			else eText=message+eText;
@@ -207,10 +207,9 @@ public class Log implements ILog {
 
 	public static String getExceptionText(Throwable throwable, boolean isPrintStackTrace) {
 		if(throwable!=null) {
-			boolean isSuppressStack=false;
-			if(!isPrintStackTrace ||isSuppressStack) {
+			if(!isPrintStackTrace) {
 				StringBuilder sb = new StringBuilder(200);
-				if(!isSuppressStack) {
+				if(isPrintStackTrace) {
 					sb.append(throwable).append(' ');
 				}else {
 					sb.append(throwable.getLocalizedMessage());
