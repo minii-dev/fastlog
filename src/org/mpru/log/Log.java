@@ -124,6 +124,11 @@ public class Log implements ILog {
 	public boolean cancel(ICancel msg) {
 		return l.cancel(msg);
 	}
+	
+	@Override
+	public void now(ICancel msg) {
+		l.now(msg);
+	}
 
 	@Override
 	public ICancel logDefer(int deferMillis, String txt, byte level, Object...args) {
@@ -270,10 +275,6 @@ public class Log implements ILog {
 	@Override
 	public String getPrefix() {
 		return prefix;
-	}
-
-	@Override
-	public void close() {
 	}
 
 	@Override

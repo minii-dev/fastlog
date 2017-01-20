@@ -118,6 +118,13 @@ public class Logger implements ILogger{
 			return msgQueue.remove(msg);
 		}
 	}
+	
+	@Override
+	public void now(ICancel msg) {
+		if(cancel(msg)) {
+			log((Msg) msg);
+		}
+	}
 
 	protected void emergencyPrint(Msg m) {
 		if(emergencyOut==null) {

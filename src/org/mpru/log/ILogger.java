@@ -49,6 +49,12 @@ public interface ILogger {
 	 */
 	boolean cancel(ICancel msg);
 	
+	/**
+	 * Prints deferred message now if not already printed
+	 * @param msg - IMsg returned by {@link #log(String, String, byte, Object[], boolean, boolean, int)} call
+	 */
+	void now(ICancel msg);
+	
 	void appendText(Msg m, StringBuilder sb, byte type);
 	byte getLevelByName(String level);
 	String getLevelName(byte lev);
@@ -58,4 +64,5 @@ public interface ILogger {
 	
 	boolean isAnsiColor();
 	void stdPrint(String text, boolean isStdError);
+
 }
