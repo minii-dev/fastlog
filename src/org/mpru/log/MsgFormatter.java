@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class MsgFormatter {
 
-	protected int MAX_PARAMETER_ELEMENT_COUNT=10;
+	protected int MAX_PARAMETER_ELEMENT_COUNT=50;
 	protected int MAX_STRING_LENGTH=100000;
 	protected int MAX_PARAMETER_LENGTH=(int) (MAX_STRING_LENGTH*0.8);
-	protected int MAX_PARAMETER_RECURSION_LEVEL=1;
+	protected int MAX_PARAMETER_RECURSION_LEVEL=2; // at what level to stop digging and print class name only
 
 	protected java.text.SimpleDateFormat f_time = new java.text.SimpleDateFormat("HH:mm:ss");
 	protected java.text.SimpleDateFormat f_date = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -65,7 +65,7 @@ public class MsgFormatter {
 						while(p<txtLength) {
 							p=txt.indexOf(begChar, p);
 							if(p<0) break;
-							paramIdx=0;
+							paramIdx=-1; // protection from 0 characters in number
 							paramStart=p;
 							while(++p<txtLength) {
 								c=txt.charAt(p);
@@ -83,11 +83,12 @@ public class MsgFormatter {
 									c=0;
 									break;
 								}
-								paramIdx=paramIdx*10+c;
+								if(paramIdx==-1) paramIdx=c;
+								else paramIdx=paramIdx*10+c;
 								if(begChar=='$') c=1;
 								else c=0;
 							}
-							if(c==1) {
+							if(c==1 && paramIdx>=0) {
 								sb.append(txt, startP, paramStart);
 								startP=p;
 								if(paramIdx<argCount) {
@@ -202,9 +203,10 @@ public class MsgFormatter {
 		if(value instanceof Iterable) {
 			Iterator<?> it = ((Iterable<?>) value).iterator();
 			sb.append(isMap?'{':'[');
-			for(int i=0;it.hasNext() && i<MAX_PARAMETER_ELEMENT_COUNT;i++){
+			for(int i=0;i<MAX_PARAMETER_ELEMENT_COUNT && it.hasNext();i++){
 				if(i>0) sb.append(", ");
-				appendParameter(it.next(), sb, start, level);
+				Object val = it.next();
+				appendParameter(val, sb, start, val instanceof Map.Entry?level-1:level);
 			}
 			if(it.hasNext()) {
 				sb.append(",...");
@@ -222,7 +224,7 @@ public class MsgFormatter {
 			sb.append('[');
 			int sz=Array.getLength(value);
 			if(sz>MAX_PARAMETER_ELEMENT_COUNT) {
-				sb.append("SIZE:").append(sz).append(' ');
+				sb.append("SIZE:").append(sz);
 				sz=MAX_PARAMETER_ELEMENT_COUNT;
 			}
 			for(int i=0;i<sz;i++) {
@@ -232,6 +234,7 @@ public class MsgFormatter {
 			sb.append(']');
 			return;
 		}
+		appendParameter(value.toString(), sb, start, level); // append as String
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class Log implements ILog {
 		}
 		return new Log(logger);
 	}
-	
+
 	Log(ILogger logger) {
 		l=logger;
 	}
@@ -96,7 +96,7 @@ public class Log implements ILog {
 
 	@Override
 	public void setProperty(String name, String value) {
-		if(ILog.LOG_LEVEL.equals(name)) {
+		if(ILog.LOG_LEVEL.equals(name) || ILog.LOG_LEVEL1.equals(name)) {
 			setLevel(l.getLevelByName(value));
 			return;
 		}
@@ -110,7 +110,7 @@ public class Log implements ILog {
 
 	@Override
 	public String getProperty(String name) {
-		if(ILog.LOG_LEVEL.equals(name)) {
+		if(ILog.LOG_LEVEL.equals(name) || ILog.LOG_LEVEL1.equals(name)) {
 			return l.getLevelName(getLevel());
 		}
 		if(ILog.FILE_LOG_LEVEL.equals(name)) {
@@ -204,20 +204,25 @@ public class Log implements ILog {
 		}
 		return eText;
 	}
+	
+	private static void appendExceptionText(StringBuilder sb, Throwable throwable) {
+		String str = throwable.getLocalizedMessage();
+		if(str==null) {
+			str=throwable.getClass().getName();
+		}
+		sb.append(str);
+	}
 
-	public static String getExceptionText(Throwable throwable, boolean isPrintStackTrace) {
+	public static String getExceptionText(Throwable throwable, final boolean isPrintStackTrace) {
 		if(throwable!=null) {
 			if(!isPrintStackTrace) {
-				StringBuilder sb = new StringBuilder(200);
-				if(isPrintStackTrace) {
-					sb.append(throwable).append(' ');
-				}else {
-					sb.append(throwable.getLocalizedMessage());
-				}
-				String causeMsg=getExceptionText(throwable.getCause(), isPrintStackTrace);
-				if(causeMsg!=null) {
+				StringBuilder sb = new StringBuilder(64);
+				while(true) {
+					appendExceptionText(sb, throwable);
+					throwable=throwable.getCause();
+					if(throwable==null) break;
 					sb.append(MsgFormatter.EOL);
-					sb.append(" caused by: ").append(causeMsg);
+					sb.append(" caused by: ");
 				}
 				return sb.toString();
 			}

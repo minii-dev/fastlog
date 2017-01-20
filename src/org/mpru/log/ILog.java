@@ -22,8 +22,10 @@ public interface ILog {
 	static byte QUIET=4;
 
 	static final String LOG_PATH = "path";
+	static final String LOG_PATH1 = "logPath";
 	static final String FILE_LOG_LEVEL = "fileLevel";
 	static final String LOG_LEVEL = "level";
+	static final String LOG_LEVEL1 = "logLevel";
 	static final String LOG_TIME_MILLIS = "logMillis";
 	static final String ALLOW_ANSI_CODES = "allowAnsiCodes";
 
