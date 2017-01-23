@@ -219,4 +219,5 @@ public interface ILog {
 	 */
 	void error(String txt, Throwable exception, Object...args);
 	
+	void close();
 }

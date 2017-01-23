@@ -281,4 +281,8 @@ public class Log implements ILog {
 	public ILogger getLogger() {
 		return l;
 	}
+
+	@Override
+	public void close() {
+	}
 }
