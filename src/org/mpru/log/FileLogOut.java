@@ -19,7 +19,7 @@ public class FileLogOut implements ILogOut {
 	
 	private ILogger l;
 	private String logPath;
-	private long maxLogFileSize=10*1024*1024;
+	private long maxLogFileSize=1000*1024*1024;
 	private boolean isFileHeaderPrinted;
 	private String charsetName="utf-8";
 
@@ -115,6 +115,7 @@ public class FileLogOut implements ILogOut {
 								locPath=logPrePath+'_'+suffix+".loc";
 							}else locPath=logPrePath+".loc";
 							File locFile=new File(locPath);
+							locFile.getParentFile().mkdirs();
 							FileOutputStream locFOS=null;
 							FileLock fLock=null;
 							try {
