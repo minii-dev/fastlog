@@ -35,9 +35,11 @@ public class StdLogOut implements ILogOut {
 			if(l.isAnsiColor()) {
 				ansi=l.ansi(level, true);
 			}
+			byte headerType;
 			if(!isAllowSkipHeader || !m.isSkipHeader()) {
-				l.appendText(m, sb, (byte) (isCanSkipTime()?(ILogger.LEVEL|ILogger.PREFIX):(ILogger.LEVEL|ILogger.PREFIX|ILogger.TIME)));
-			}
+				headerType=(byte) (isCanSkipTime()?(ILogger.LEVEL|ILogger.PREFIX):(ILogger.LEVEL|ILogger.PREFIX|ILogger.TIME));
+			}else headerType=ILogger.PREFIX;
+			l.appendText(m, sb, headerType);
 			if(sb.length()>0) sb.append(' ');
 			if(ansi!=null) {
 				sb.append(ansi);

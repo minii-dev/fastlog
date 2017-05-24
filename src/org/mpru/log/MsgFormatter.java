@@ -190,6 +190,18 @@ public class MsgFormatter {
 			return;
 		}
 
+		if(value instanceof Date) {
+			synchronized(f_date) {
+				sb.append(f_date.format(value));
+			}
+			String tim=getTimeString(((Date) value).getTime());
+			if(!tim.equals("00:00:00")) {
+				sb.append(' ');
+				sb.append(tim);
+			}
+			return;
+		}
+
 		if(level>MAX_PARAMETER_RECURSION_LEVEL || (sb.length()-start)>MAX_PARAMETER_LENGTH) {
 			sb.append('<').append(value.getClass().getName()).append('>');
 			return;
@@ -301,7 +313,9 @@ public class MsgFormatter {
 	}
 
 	public String getDateForDateLogging(long time) {
-		return "date: "+f_date.format(new Date(time));
+		synchronized(f_date) {
+			return "date: "+f_date.format(new Date(time));
+		}
 	}
 
 	public String ansi(byte level, boolean isBegin) {
@@ -347,7 +361,7 @@ public class MsgFormatter {
 		}
 		return isErrorStream?errStream:outStream;
 	}
-	
+
 	public void setOutStream(PrintStream outStream) {
 		this.outStream = outStream;
 	}
@@ -355,7 +369,7 @@ public class MsgFormatter {
 	public void setErrStream(PrintStream errStream) {
 		this.errStream = errStream;
 	}
-	
+
 	public void setAnsiColor(boolean isAnsiColor) {
 		this.isAnsiColor = isAnsiColor;
 	}

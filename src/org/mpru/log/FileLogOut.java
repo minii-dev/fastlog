@@ -28,7 +28,9 @@ public class FileLogOut implements ILogOut {
 	String getRealLogPath(String pattern) {
 		if(pattern!=null) {
 			if(pattern.indexOf("$(filedate)")>=0){
-				pattern=pattern.replaceAll("(?i)\\$\\(filedate\\)", f_filedate.format(new Date(System.currentTimeMillis())));
+				synchronized(f_filedate) {
+					pattern=pattern.replaceAll("(?i)\\$\\(filedate\\)", f_filedate.format(new Date(System.currentTimeMillis())));
+				}
 			}
 		}
 		return pattern;
