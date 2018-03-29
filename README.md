@@ -1,9 +1,9 @@
 # Fastlog
-Small, fast, special, practical java logging.
+Small, fast, async, special, practical java logging.
 # The Ideas
 1. Console logging must provide information, not flood.
 When you run the application, you usually want to see its progress and results on-line. But in case of unexpected results, you also want to be able to analyse the application behaviour. So, you have two different purposes of logging.
-The Fastlog (by default) provides two outputs, yes, for different purposes: the console (STDOUT and STDERROR) and a file. The console is usually used just in time of running, to view the progress, so its log level is relatively low. Also it does not print unnecessary information such as time for each line for short processes (but if the process lasts more, it starts to print time). The log file is usually used for post process analisys and debugging, so its log level is high ("debug" by default), and it has time for each line.
+The Fastlog (by default) provides two outputs, yes, for different purposes: the console (STDOUT and STDERROR) and a file. The console is usually used just in time of running, to view the progress, so its log level is relatively high. Also it does not print unnecessary information such as time for each line for short processes (but if the process lasts more, it starts printing time). The log file is usually used for post process analisys and debugging, so its log level is low ("debug" by default), and it has time for each line.
 The application just prints to log, and the Fastlog itself knows whether to write to the file, to the console or both.
 2. Logging should not slow down the application.
 The Fastlog prints asynchronously, using the buffer with up to several hundreds log messages, in dedicated thread and tries to combine log lines to write several at once, so the output does not slow down the application (really it can if there are too many log lines to be printed to the console, which itself is not very fast, or the log file is on the slow drive)
