@@ -180,7 +180,7 @@ public class FileLogOut implements ILogOut {
 	@Override
 	public boolean setProperty(String name, Object value) {
 		if(ILog.LOG_PATH.equals(name) || ILog.LOG_PATH1.equals(name)) {
-			setPath(value==null?null:value.toString(), false);
+			setPath(value==null?null:value.toString(), true);
 			return true;
 		}else if(MAX_FILE_SIZE.equals(name)) {
 			if(value instanceof Number) maxLogFileSize=((Number) value).longValue();

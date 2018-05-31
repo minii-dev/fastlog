@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Max Petrov (minii0878@gmail.com)
+Specification-Vendor: Max Petrov
+Specification-Title: File Screen Logger

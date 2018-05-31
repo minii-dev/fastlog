@@ -38,7 +38,7 @@ public class Log implements ILog {
 	public static ILog createInitial(ILogger logger) {
 		if(logger==null) {
 			logger=createInstance(Logger.LOGGER_CLASS_PROPERTY, ILogger.class);
-			if(logger==null) logger=Logger.getDefault();
+			if(logger==null) logger=new Logger(); // cannot store default, because on TZ change it will not change its already set formatters
 		}
 		return new Log(logger);
 	}

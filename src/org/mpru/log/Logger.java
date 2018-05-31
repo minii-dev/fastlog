@@ -25,7 +25,6 @@ public class Logger implements ILogger{
 	static final String INTERNAL_PREFIX = "*LOG";
 
 	protected final ArrayList<ILogOut> logOuts=new ArrayList<>();
-	protected static ILogger defaultLogger;
 	protected static final long MAX_FLUSH_INTERVAL=330;
 	protected static final long MIN_FLUSH_INTERVAL=50;
 	protected LogFlusher LF;
@@ -50,17 +49,6 @@ public class Logger implements ILogger{
 		Runtime.getRuntime().addShutdownHook(HOOK);
 	}
 
-	static ILogger getDefault() {
-		if(defaultLogger==null) {
-			synchronized(Logger.class) {
-				if(defaultLogger==null) {
-					defaultLogger=new Logger();
-				}
-			}
-		}
-		return defaultLogger;
-	}
-
 	@Override
 	public void addLogOut(ILogOut logOut) {
 		synchronized(logOuts) {
@@ -73,10 +61,7 @@ public class Logger implements ILogger{
 			for(Entry<String, String> e: props.entrySet()) {
 				String name=e.getKey();
 				Object value=e.getValue();				
-				int i=0;
-				while(logOuts.size()>i) {
-					logOuts.get(i++).setProperty(name, value);
-				}
+				logOut.setProperty(name, value);
 			}
 		}
 	}
@@ -387,6 +372,7 @@ public class Logger implements ILogger{
 				msgFormatter.setAnsiColor(Boolean.parseBoolean(value.toString()));
 			}
 		}
+		flush();
 		int i=0;
 		while(logOuts.size()>i) {
 			logOuts.get(i++).setProperty(name, value);
