@@ -58,25 +58,25 @@ public class FileLogOut implements ILogOut {
 			synchronized(fileLock) {
 				try {
 					flush();
-				}catch(IOException e){
+				}catch(Exception e){
 					l.reportInternalError("file flush", e);
 				}
 				this.logFileWriter=null;
 				try{
 					logFileWriter.close();
-				}catch(IOException e){
+				}catch(Exception e){
 					l.reportInternalError("file close", e);
 				}
 				try{
 					fLock.release();
 					fLock=null;
-				}catch(IOException e){
+				}catch(Exception e){
 					l.reportInternalError("lock release", e);
 				}
 				try{
 					locFOS.close();
 					locFOS=null;
-				}catch(IOException e){
+				}catch(Exception e){
 					l.reportInternalError("lock close", e);
 				}
 				locFile.delete();
@@ -136,18 +136,18 @@ public class FileLogOut implements ILogOut {
 									this.logPath=logPath;
 									break;
 								}
-							}catch(IOException e) {
+							}catch(Exception ignore) {
 							}
 							if(fLock!=null) {
 								try {
 									fLock.release();
-								}catch(IOException ignore) {
+								}catch(Exception ignore) {
 								}
 							}
 							if(locFOS!=null) {
 								try {
 									locFOS.close();
-								}catch(IOException ignore) {
+								}catch(Exception ignore) {
 								}
 								locFile.delete();
 							}
