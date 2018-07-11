@@ -19,6 +19,8 @@ public interface ILog {
 	static byte INFO=30;
 	static byte WARN=20;
 	static byte WARN_NOH=19;
+	static byte WARN_ERR=12;
+	static byte WARN_ERR_NOH=11;
 	static byte ERROR=10;
 	static byte QUIET=4;
 
@@ -195,6 +197,13 @@ public interface ILog {
 	 * @param args 
 	 */
 	void warn(String txt, Object...args);
+	
+	/**
+	 * Logs the message as a warning, but use error output (red color/stdError..). See {@link #logDefer(int, String, byte, Object...)} for description and parameters
+	 * @param txt
+	 * @param args 
+	 */
+	void warnErr(String txt, Object...args);
 	
 	/**
 	 * Logs the message. See {@link #logDefer(int, String, byte, Object...)} for description and parameters

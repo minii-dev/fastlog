@@ -50,7 +50,7 @@ public class StdLogOut implements ILogOut {
 				ansi=l.ansi(level, false);
 				if(ansi!=null) sb.append(ansi);
 			}
-			l.stdPrint(sb.toString(), level<=ILog.ERROR && level>ILog.QUIET);
+			l.stdPrint(sb.toString(), level<=ILog.WARN_ERR && level>ILog.QUIET);
 		}
 	}
 

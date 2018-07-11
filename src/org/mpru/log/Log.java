@@ -8,7 +8,7 @@ public class Log implements ILog {
 	private final ILogger l;
 	private ILog parent;
 	private String prefix;
-	private byte fileLevel=ILog.MOREINFO; // FIXME: must be level for each logout type? Or logout configured itself (for instance, DB logger), and Log has only two: screen/file log levels
+	private byte fileLevel=ILog.MOREINFO; // TODO: must be level for each logout type? Or logout configured itself (for instance, DB logger), and Log has only two: screen/file log levels
 	private boolean isFileUsesSameLevel;
 	private byte level=ILog.INFO;
 
@@ -178,6 +178,11 @@ public class Log implements ILog {
 	@Override
 	public void warn(String txt, Object...args) {
 		log(txt, ILog.WARN, args);
+	}
+	
+	@Override
+	public void warnErr(String txt, Object...args) {
+		log(txt, ILog.WARN_ERR, args);
 	}
 
 	@Override

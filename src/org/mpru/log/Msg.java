@@ -17,6 +17,6 @@ public class Msg implements ICancel{
 	public String cachedText;
 	
 	public boolean isSkipHeader() {
-		return (level&1)!=0 || level<=ILog.INFO && level!=ILog.WARN;
+		return (level&1)!=0 || (level<=ILog.INFO && level>ILog.WARN);
 	}
 }

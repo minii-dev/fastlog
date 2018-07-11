@@ -325,7 +325,7 @@ public class MsgFormatter {
 			}else if(level>ILog.INFO) {
 				return "\u001b[33;1m";// yellow - moreinfo
 			}else if(level>ILog.WARN) { // info - default
-			}else if(level>ILog.ERROR) {
+			}else if(level>ILog.WARN_ERR) {
 				return "\u001b[35m";// mag - warn
 			}else if(level>ILog.QUIET) {
 				return "\u001b[31;1m";// red - error
