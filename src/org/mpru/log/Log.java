@@ -289,5 +289,6 @@ public class Log implements ILog {
 
 	@Override
 	public void close() {
+		if(l instanceof Logger) ((Logger) l).flush();
 	}
 }

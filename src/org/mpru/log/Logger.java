@@ -186,7 +186,7 @@ public class Logger implements ILogger{
 		}
 	}
 
-	protected boolean flush() {
+	boolean flush() {
 		if(msgIndex>0) {
 			Msg[] p_msgs;
 			int p_msgIndex;
