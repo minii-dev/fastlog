@@ -22,6 +22,7 @@ public interface ILog {
 	static byte WARN_ERR=12;
 	static byte WARN_ERR_NOH=11;
 	static byte ERROR=10;
+	static byte FAILURE=7;
 	static byte QUIET=4;
 
 	// Log property names

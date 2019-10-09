@@ -294,6 +294,9 @@ public class MsgFormatter {
 	public String getLevelNamePadded(byte lev) {
 		//if((lev&ILog.NO_HEADER_CHECK_MASK)!=1 || lev<=ILog.QUIET) return null;
 		if(lev<=ILog.QUIET) return null;
+		if(lev<=ILog.FAILURE) {
+			return "ERROR";
+		}
 		if(lev<=ILog.ERROR) {
 			return "ERROR";
 		}

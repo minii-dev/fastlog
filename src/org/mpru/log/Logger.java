@@ -409,6 +409,7 @@ public class Logger implements ILogger{
 				case "WARNING":
 				case "WARN": return ILog.WARN;
 				case "ERROR": return ILog.ERROR;
+				case "FAILURE": return ILog.FAILURE;
 				case "QUIET": return ILog.QUIET;
 			}
 		}
@@ -419,6 +420,9 @@ public class Logger implements ILogger{
 	public String getLevelName(byte lev) {
 		if(lev<=ILog.QUIET) {
 			return "QUIET";
+		}
+		if(lev<=ILog.FAILURE) {
+			return "FAILURE";
 		}
 		if(lev<=ILog.ERROR) {
 			return "ERROR";
