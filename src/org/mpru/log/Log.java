@@ -209,7 +209,10 @@ public class Log implements ILog {
 	public static String getExceptionText(String message, Throwable throwable, boolean isPrintStackTrace) {
 		String eText=getExceptionText(throwable, isPrintStackTrace);
 		if(message!=null && message.length()>0) {
-			if(message.charAt(message.length()-1)>' ')eText=message+' '+eText;
+			if(eText==null) return message;
+			if(message.charAt(message.length()-1)>' ') {
+				eText=message+' '+eText;
+			}
 			else eText=message+eText;
 		}
 		return eText;
