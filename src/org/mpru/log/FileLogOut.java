@@ -19,6 +19,7 @@ public class FileLogOut implements ILogOut {
 	
 	private ILogger l;
 	private String logPath;
+	private String logPathTempl;
 	private long maxLogFileSize=1000*1024*1024;
 	private boolean isFileHeaderPrinted;
 	private String charsetName="utf-8";
@@ -57,7 +58,7 @@ public class FileLogOut implements ILogOut {
 		if(logFileWriter!=null) {
 			synchronized(fileLock) {
 				try {
-					flush();
+					logFileWriter.flush();
 				}catch(Exception e){
 					l.reportInternalError("file flush", e);
 				}
@@ -87,9 +88,14 @@ public class FileLogOut implements ILogOut {
 
 	public void setPath(String path, boolean isForce) {
 		if(isForce || logPath==null) {
-			closeFile();
-			openFile(path);
+			logPathTempl=path;
+			reopen();
 		}
+	}
+	
+	private void reopen() {
+		closeFile();
+		openFile(logPathTempl);
 	}
 
 	private FileLock fLock;
@@ -153,7 +159,7 @@ public class FileLogOut implements ILogOut {
 							}
 						}
 						suffix++;
-						if(suffix>100) {
+						if(suffix>10000) { // because size limit counts here
 							throw new RuntimeException("Cannot create log file using .loc: "+logPath);
 						}
 						logPath=logPrePath+'_'+suffix+logExt;
@@ -169,7 +175,12 @@ public class FileLogOut implements ILogOut {
 	@Override
 	public void flush() throws IOException {
 		Writer lf = logFileWriter;
-		if(lf!=null) lf.flush();
+		if(lf!=null) {
+			lf.flush();
+			if(maxLogFileSize>0 &&new File(logPath).length()>=maxLogFileSize) {
+				reopen();
+			}
+		}
 	}
 
 	@Override
