@@ -12,7 +12,7 @@ public class MsgFormatter {
 	protected int MAX_PARAMETER_ELEMENT_COUNT=50;
 	protected int MAX_STRING_LENGTH=100000;
 	protected int MAX_PARAMETER_LENGTH=(int) (MAX_STRING_LENGTH*0.8);
-	protected int MAX_PARAMETER_RECURSION_LEVEL=2; // at what level to stop digging and print class name only
+	protected int MAX_PARAMETER_RECURSION_LEVEL=5; // at what level to stop digging and print class name only
 
 	protected java.text.SimpleDateFormat f_time = new java.text.SimpleDateFormat("HH:mm:ss");
 	protected java.text.SimpleDateFormat f_date = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -228,7 +228,7 @@ public class MsgFormatter {
 		}
 		if(value instanceof Map.Entry) {
 			appendParameter(((Map.Entry) value).getKey(), sb, start, level);
-			sb.append('=');
+			sb.append(':');
 			appendParameter(((Map.Entry) value).getValue(), sb, start, level);
 			return;
 		}
