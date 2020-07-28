@@ -41,6 +41,7 @@ public class Logger implements ILogger{
 
 	private final Object flushLock=new Object();
 	private final Object logLock=new Object();
+	private volatile String printedDate;
 
 	protected volatile long appWaitMillis;
 	protected long appWaitMillisBarrier=1000;
@@ -265,15 +266,19 @@ public class Logger implements ILogger{
 			Msg tm;
 			// log current date
 			if(nextDatePrintTime<=m.time) {
-				tm = newMsg();
-				tm.cachedText=msgFormatter.getDateForDateLogging(m.time);
-				if(tm.cachedText!=null) {
-					tm.cachedText=tm.cachedText+MsgFormatter.EOL;
-					tm.time=m.time;
-					tm.level=ILog.QUIET;
-					tm.isFile=true;
-					tm.isScreen=nextDatePrintTime!=0l; // do not log to screen for the 1st time
-					output1(tm);
+				String dateString=msgFormatter.getDateForDateLogging(m.time);
+				if(!dateString.equals(printedDate)) {
+					printedDate=dateString;
+					tm = newMsg();
+					tm.cachedText=dateString;
+					if(tm.cachedText!=null) {
+						tm.cachedText=tm.cachedText+MsgFormatter.EOL;
+						tm.time=m.time;
+						tm.level=ILog.QUIET;
+						tm.isFile=true;
+						tm.isScreen=nextDatePrintTime!=0l; // do not log to screen for the 1st time
+						output1(tm);
+					}
 				}
 				nextDatePrintTime=m.time+DATE_PRINT_INTERVAL;
 			}
