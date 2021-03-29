@@ -47,7 +47,11 @@ public class Logger implements ILogger{
 	protected long appWaitMillisBarrier=1000;
 
 	static {
-		Runtime.getRuntime().addShutdownHook(HOOK);
+		try {
+			Runtime.getRuntime().addShutdownHook(HOOK);
+		} catch (IllegalArgumentException| IllegalStateException e) {
+			//Hook previously registered or shutown in progress
+		}
 	}
 
 	@Override
