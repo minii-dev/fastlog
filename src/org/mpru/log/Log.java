@@ -16,17 +16,18 @@ public class Log implements ILog {
 	protected static <T> T createInstance(String classPropertyName, Class<T> cl){
 		String className=System.getProperty(classPropertyName);
 		if(className!=null && className.length()>0) {
+			Object loggerObject;
 			try{
-				Object loggerObject = Class.forName(className).newInstance();
-				if(!(cl.isInstance(loggerObject))) {
-					throw new RuntimeException("Instance specified by system property "
-							+classPropertyName+"=\""+className+"\" must implement "+cl.getName()+" interface. Correct the class or remove the property to use the default class");
-				}
-				return (T) loggerObject;
-			}catch(InstantiationException | IllegalAccessException | ClassNotFoundException e){
+				loggerObject = Class.forName(className).getDeclaredConstructor().newInstance();
+			}catch(Exception e){
 				throw new RuntimeException("Cannot create "+cl.getName()+" instance specified by system property "
 						+classPropertyName+"=\""+className+"\". Correct the class or remove the property to use the default class", e);
 			}
+			if(!(cl.isInstance(loggerObject))) {
+				throw new RuntimeException("Instance specified by system property "
+						+classPropertyName+"=\""+className+"\" must implement "+cl.getName()+" interface. Correct the class or remove the property to use the default class");
+			}
+			return (T) loggerObject;
 		}
 		return null;
 	}
