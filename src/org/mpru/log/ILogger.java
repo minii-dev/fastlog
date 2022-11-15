@@ -60,6 +60,7 @@ public interface ILogger {
 	String getLevelName(byte lev);
 	String ansi(byte level, boolean isBegin);
 
+	default boolean flush() { return false; }
 	void close();
 	
 	boolean isAnsiColor();

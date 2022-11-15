@@ -191,7 +191,8 @@ public class Logger implements ILogger{
 		}
 	}
 
-	boolean flush() {
+	@Override
+	public boolean flush() {
 		if(msgIndex>0) {
 			Msg[] p_msgs;
 			int p_msgIndex;
