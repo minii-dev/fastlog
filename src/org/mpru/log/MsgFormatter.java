@@ -236,12 +236,20 @@ public class MsgFormatter {
 			sb.append('[');
 			int sz=Array.getLength(value);
 			if(sz>MAX_PARAMETER_ELEMENT_COUNT) {
-				sb.append("SIZE:").append(sz);
+				sb.append("SIZE:").append(sz).append(' ');
 				sz=MAX_PARAMETER_ELEMENT_COUNT;
 			}
 			for(int i=0;i<sz;i++) {
 				if(i>0) sb.append(", ");
-				appendParameter(Array.get(value, i), sb, start, level);
+				Object val=Array.get(value, i);
+				if(val instanceof Byte) {
+					int vInt=(byte)val&0xff;
+					val=Integer.toString(vInt, 16);
+					if(vInt<16) {
+						val="0"+val;
+					}
+				}
+				appendParameter(val, sb, start, level);
 			}
 			sb.append(']');
 			return;
