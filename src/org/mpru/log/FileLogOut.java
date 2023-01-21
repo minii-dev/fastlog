@@ -16,6 +16,7 @@ public class FileLogOut implements ILogOut {
 	private final Object fileLock=new Object();
 	
 	protected java.text.SimpleDateFormat f_filedate = new java.text.SimpleDateFormat("yyyy_MM_dd");
+	protected java.text.SimpleDateFormat f_date = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	
 	private ILogger l;
 	private String logPath;
@@ -30,7 +31,7 @@ public class FileLogOut implements ILogOut {
 		if(pattern!=null) {
 			if(pattern.indexOf("$(filedate)")>=0){
 				synchronized(f_filedate) {
-					pattern=pattern.replaceAll("(?i)\\$\\(filedate\\)", f_filedate.format(new Date(System.currentTimeMillis())));
+					pattern=pattern.replaceAll("(?i)\\$\\(filedate\\)", f_filedate.format(new Date()));
 				}
 			}
 		}
@@ -45,8 +46,12 @@ public class FileLogOut implements ILogOut {
 				StringBuilder sb=new StringBuilder(500);
 				if(!isFileHeaderPrinted) {
 					isFileHeaderPrinted=true;
-					sb.append("=========================").append(MsgFormatter.EOL).append("======== started logging").append(MsgFormatter.EOL);
-				}		
+					sb.append("=========================").append(MsgFormatter.EOL).append("======== started logging date:");
+					synchronized(f_date) {
+						sb.append(f_date.format(new Date()));
+					}
+					sb.append(MsgFormatter.EOL);
+				}
 				l.appendText(m, sb, ILogger.FULL);
 				fw.write(sb.toString());
 			}
