@@ -20,4 +20,4 @@ Any number of loggers can be created, having or not parent loggers and sharing o
 3. When the message text parameters passed, they are automatically converted to strings, including objects INSIDE Maps, Arrays, Iterables, limiting the total message length and possible self-references.
 
 # Usage
-See [package.html](https://rawgit.com/minii-dev/fastlog/master/src/org/mpru/log/package.html) for usage description and examples.
+See [package.html](https://github.com/minii-dev/fastlog/master/src/org/mpru/log/package.html) for usage description and examples.
