@@ -69,7 +69,7 @@ public class MsgFormatter {
 							paramStart=p;
 							while(++p<txtLength) {
 								c=txt.charAt(p);
-								if(c=='}') {
+								if(c=='}' && begChar=='{') {
 									p++;
 									c=1;
 									break;
