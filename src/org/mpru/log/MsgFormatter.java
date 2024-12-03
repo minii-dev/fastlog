@@ -339,7 +339,7 @@ public class MsgFormatter {
 			}else if(level>ILog.WARN_ERR) {
 				return "\u001b[35m";// mag - warn
 			}else if(level>ILog.QUIET) {
-				return "\u001b[31;1m";// red - error
+				return "\u001b[31m";// red - error
 			}else {
 
 			}
